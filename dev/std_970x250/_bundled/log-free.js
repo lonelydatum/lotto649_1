@@ -192,7 +192,7 @@ var _commonJsCreativeJs = require('../../_common/js/creative.js');
 
 _commonJsCreativeJs.creative.showAd = function () {
     var tl = (0, _commonJsCommonJs.start_basic)();
-    tl.from(".cta", .3, { opacity: 0 }, "+=.5");
+    // tl.from(".cta", .3, {opacity:0}, "+=.5")
 };
 
 _commonJsCreativeJs.creative.dynamicDataAvailable = function () {};

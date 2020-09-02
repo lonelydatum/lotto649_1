@@ -7,7 +7,7 @@ import {creative} from '../../_common/js/creative.js'
 
 creative.showAd = ()=>{
     const tl = start_basic()    
-	tl.from(".cta", .3, {opacity:0}, "+=.5")
+	// tl.from(".cta", .3, {opacity:0}, "+=.5")
 }
 
 
