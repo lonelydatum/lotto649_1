@@ -1,0 +1,66 @@
+
+
+@import '../../../_common/styles/common.scss';
+
+
+
+#millions{
+	@include pos-scale(42, 64, 1.5);
+}
+
+.bg2{
+	@include pos-scale(0, 0, 1);
+}
+
+.frame1 {
+	// opacity: 1;
+}
+
+.blink{
+	// opacity:.6;
+	@include pos(0, 0);
+	width: 100%;
+	height: 100%;
+	
+	.filler{
+		width: 100%;
+		height: 60%;
+		background-color: black;		
+	}
+
+	&.top{
+		@include pos(0, 0);
+		.filler{
+			@include pos(0, 0);
+		}
+		img{
+			@include pos(0, 125);
+		}
+	}	
+
+	&.bottom{
+		@include pos(0, 0);
+		.filler{
+			@include pos(0, 120);
+		}
+		img{
+			@include pos-scalexy(0, 0, 1, -1);
+		}
+	}	
+
+
+}
+
+.brush{
+	@include pos(0, 0);
+	clip: rect(0px, 300px, 250px, 0px);
+}
+
+
+#banner{
+	font-size: 20px;
+	color: #333;
+	width: 970px;
+	height: 250px;
+}
+
