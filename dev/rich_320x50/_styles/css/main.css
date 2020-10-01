@@ -250,12 +250,24 @@ sup {
   position: absolute;
 }
 
-.frame1, .numbers {
-  opacity: 1;
+#millions img {
+  -webkit-filter: none;
+  filter: none;
 }
 
 .frame2 {
   opacity: 1;
+}
+
+#end_2b {
+  -webkit-transform: translate(0px, -36px) scale(0.90909, 0.90909);
+  -ms-transform: translate(0px, -36px) scale(0.90909, 0.90909);
+  transform: translate(0px, -36px) scale(0.90909, 0.90909);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  position: absolute;
 }
 
 #banner {

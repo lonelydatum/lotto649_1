@@ -13,7 +13,7 @@
 }
 
 .frame1 {
-	// opacity: 1;
+	opacity: 1;
 }
 
 .blink{
@@ -51,9 +51,14 @@
 
 }
 
+
+#end_2b{
+	left: 89px;
+}
+
 .brush{
-	@include pos(0, 0);
-	clip: rect(0px, 300px, 250px, 0px);
+	@include pos-scale(-118, 40, .5);
+	clip: rect(0px, 555px, 188px, 0px);
 }
 
 

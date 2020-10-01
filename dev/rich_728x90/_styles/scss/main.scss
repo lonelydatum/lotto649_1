@@ -64,9 +64,18 @@
 
 }
 
+
+
+#end_2b{
+	// left: 33px;
+	@include pos-scale(0, -37, (1/.78)/2);
+}
+
+
+
 .brush{
-	@include pos(0, 0);
-	clip: rect(0px, 300px, 250px, 0px);
+	@include pos-scale(-60, 16, .5);
+	clip: rect(0px, 298px, 96px, 0px);
 }
 
 

@@ -19,26 +19,109 @@ creative.loadJSON = function(){
   creative.xhr.send();
 }
 
+creative.___populateAd = function (json) { 
+    
 
-creative.populateAd = function (json) { 
-  var lottoSum = json.LMAX.jackpot;
-  var digit1 = (''+lottoSum)[0];
-  var digit2 = (''+lottoSum)[1];
-  const num1 = document.getElementById(`num_${digit1}`).cloneNode(true)
-  const num2 = document.getElementById(`num_${digit2}`).cloneNode(true)
+    var lottoSum = json.SIX49.jackpot;
+    // var lottoSum = 81000000;
+    
 
-  num1.onload = ()=>{
-    TweenLite.set(num1, {opacity:1, x:0})
-    TweenLite.set(num2, {opacity:1, x:num1.width * .55})
-  }
+    const millions = lottoSum/1000000
+    const totalDigits = millions.toString().length
 
-  console.log(digit1);
+    console.log(lottoSum);
+    console.log(millions);
+    millions.toString().split("").map(item=>{
+      console.log(item);
+    })
+    console.log(totalDigits);
+    var digit1 = (''+lottoSum)[0];
+    var digit2 = (''+lottoSum)[1];
+    // var digit1 = "8"
+    // var digit2 = "8"
+    const num1 = document.getElementById(`num_${digit1}`).cloneNode(true)
+    const num2 = document.getElementById(`num_${digit2}`).cloneNode(true)
+    const end_2b = document.getElementById(`end_2b`)
+
+    num1.onload = ()=>{
+      let width = (num1.width * .5) 
+      if(totalDigits===2){
+        width = (num1.width * .5) + (num2.width*.62)
+        TweenLite.set(num2, {opacity:1, x:num1.width * .62})
+      }
+
+      console.log(num1.width);
+      
+      
+      TweenLite.set(num1, {opacity:1, x:0})
+      
+      
+      TweenLite.set(end_2b, {x:width})
+    }
+
+    // console.log(digit1);
 
 
-  document.getElementById("millions").append(num1)
-  document.getElementById("millions").append(num2)
+    document.getElementById("millions").append(num1)
+    if(totalDigits===2){
+        document.getElementById("millions").append(num2)
+    }
+    
+}
+
+
+
+const populateAd = function (json, callback) { 
+    const end_2b = document.getElementById(`end_2b`)
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('jackpot');
+    
+
+    var lottoSum = myParam || json.SIX49.jackpot
+    
+    
+
+    const millions = lottoSum/1000000
+    const totalDigits = millions.toString().length
+
+    const numList = []
+    
+    const promList = millions.toString().split("").map(item=>{
+      const num = document.getElementById(`num_${item}`).cloneNode(true)
+      numList.push(num)
+      const prom = new Promise((good, bad)=>{
+        num.onload = good
+      })
+
+      document.getElementById("millions").append(num)
+      return prom
+    })
+
+    let width = 0
+    let x = 0
+    Promise.all(promList).then(()=>{
+      numList.map(item=>{
+        width += (item.width*.5) + 7
+        console.log(item.width, x);
+        TweenLite.set(item, {opacity:1, x:x})
+        x = width
+      })
+
+      
+      TweenLite.set(end_2b, {x:x+13})
+      callback()
+    })
+
+    
+
+
+    
   
 };
+
+creative.populateAd = (json)=>{
+  populateAd(json)
+}
 
 creative.init = function () {
   creative.setupDOMElements();
@@ -96,4 +179,4 @@ creative.pageLoadHandler = function (event) {
 // Start creative once all elements in window are loaded.
 window.addEventListener('load', creative.init.bind(creative));
 
-export {creative}
+export {creative, populateAd}

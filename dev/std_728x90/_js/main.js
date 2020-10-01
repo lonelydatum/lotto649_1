@@ -8,9 +8,11 @@ import {creative} from '../../_common/js/creative.js'
 creative.showAd = ()=>{
     const tl = new TimelineMax()
 	tl.set([".frame1", ".words"], {opacity:1})
+
+	
 	tl.add( helpers.happyTxt() )
 
-	tl.add("blink", "+=1")
+	tl.add("blink", "+=1.8")
 	tl.add( helpers.blinker(.4), "blink" )
 	tl.to(".word1", .3, {opacity:0}, "blink")
 	
@@ -23,8 +25,9 @@ creative.showAd = ()=>{
 
 	tl.add("shift")
 
-	tl.to(".logo", .3, {x:-140}, "shift")
-	tl.from(".footer", .4, {x:"+=150"}, "shift+=.1")
+	tl.to(".bg2", .4, {x:-45}, "shift")
+	tl.to(".logo", .4, {x:-140}, "shift")
+	tl.from(".footer", .4, {x:"+=150"}, "shift")
 	
 
 

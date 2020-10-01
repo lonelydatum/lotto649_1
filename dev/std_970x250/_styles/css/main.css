@@ -260,6 +260,10 @@ sup {
   position: absolute;
 }
 
+.frame1 {
+  opacity: 1;
+}
+
 .blink {
   -webkit-transform: translate(0px, 0px);
   -ms-transform: translate(0px, 0px);
@@ -345,16 +349,20 @@ sup {
   position: absolute;
 }
 
+#end_2b {
+  left: 89px;
+}
+
 .brush {
-  -webkit-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
+  -webkit-transform: translate(-118px, 40px) scale(0.5, 0.5);
+  -ms-transform: translate(-118px, 40px) scale(0.5, 0.5);
+  transform: translate(-118px, 40px) scale(0.5, 0.5);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-perspective: 1000px;
   perspective: 1000px;
   position: absolute;
-  clip: rect(0px, 300px, 250px, 0px);
+  clip: rect(0px, 555px, 188px, 0px);
 }
 
 #banner {

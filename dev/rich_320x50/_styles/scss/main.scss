@@ -7,17 +7,23 @@
 #millions{
 	opacity:1;
 	@include pos-scale(86, 19, .55);
+	img{
+		filter:none;
+	}
 }
 
 .frame1, .numbers {
-	opacity: 1;
+	// opacity: 1;
 }
 
 .frame2 {
 	opacity: 1;
 }
 
-
+#end_2b{
+	// left: 86px;
+	@include pos-scale(0, -36, 1.8181818181818181/2);
+}
 
 #banner{	
 	width: 320px;

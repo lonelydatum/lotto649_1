@@ -16,7 +16,7 @@ function txt(list){
 
 function happyTxt(){
 	const tl = txt([".t1a", ".t1b", ".t1c", ".t1d"])
-	tl.from(".brush", .6, {clip: `rect(0px, 0px, ${size.w}px, 0px)`}, "-=.2")
+	tl.from(".brush", .3, {clip: `rect(0px, 0px, ${size.h}px, 0px)`}, "-=.25")
 	// tl.to(".word1", .3, {opacity:0}, "+=1")
 
 	return tl
@@ -51,9 +51,10 @@ function richText(){
 function startF1(){
 	const tl = new TimelineMax()
 	tl.set(".frame1", {opacity:1})
-	tl.add( txt([".t1a", ".t1b", ".t1c", ".t1d"]) )
-	tl.from(".brush", .6, {clip: `rect(0px, 0px, ${size.w}px, 0px)`})
-	tl.add(blinker(), "+=1.2")
+	// tl.add( txt([".t1a", ".t1b", ".t1c", ".t1d"]) )
+	// tl.from(".brush", .5, {clip: `rect(0px, 0px, ${size.h}px, 0px)`})
+	tl.add(happyTxt())
+	tl.add(blinker(), "+=1.6")
 	return tl
 }
 

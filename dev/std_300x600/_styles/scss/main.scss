@@ -53,8 +53,8 @@
 }
 
 .brush{
-	@include pos(0, 0);
-	clip: rect(0px, 300px, 250px, 0px);
+	@include pos-scale(-54, 94, .5);
+	clip: rect(0px, 278px, 94px, 0px);
 }
 
 

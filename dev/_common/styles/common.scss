@@ -158,8 +158,13 @@ sup{
 }
 
 .num{
+	// border: 1px solid red;
 	opacity: 0;
 }
+
+// #end_2b{	
+// 	display: none;
+// }
 
 #millions{
 	@include pos(20, 115);

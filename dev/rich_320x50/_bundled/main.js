@@ -19,7 +19,7 @@ function txt(list) {
 
 function happyTxt() {
 	var tl = txt([".t1a", ".t1b", ".t1c", ".t1d"]);
-	tl.from(".brush", .6, { clip: "rect(0px, 0px, " + size.w + "px, 0px)" }, "-=.2");
+	tl.from(".brush", .3, { clip: "rect(0px, 0px, " + size.h + "px, 0px)" }, "-=.25");
 	// tl.to(".word1", .3, {opacity:0}, "+=1")
 
 	return tl;
@@ -54,9 +54,10 @@ function richText() {
 function startF1() {
 	var tl = new TimelineMax();
 	tl.set(".frame1", { opacity: 1 });
-	tl.add(txt([".t1a", ".t1b", ".t1c", ".t1d"]));
-	tl.from(".brush", .6, { clip: "rect(0px, 0px, " + size.w + "px, 0px)" });
-	tl.add(blinker(), "+=1.2");
+	// tl.add( txt([".t1a", ".t1b", ".t1c", ".t1d"]) )
+	// tl.from(".brush", .5, {clip: `rect(0px, 0px, ${size.h}px, 0px)`})
+	tl.add(happyTxt());
+	tl.add(blinker(), "+=1.6");
 	return tl;
 }
 
@@ -112,22 +113,90 @@ creative.loadJSON = function () {
   creative.xhr.send();
 };
 
-creative.populateAd = function (json) {
-  var lottoSum = json.LMAX.jackpot;
+creative.___populateAd = function (json) {
+
+  var lottoSum = json.SIX49.jackpot;
+  // var lottoSum = 81000000;
+
+  var millions = lottoSum / 1000000;
+  var totalDigits = millions.toString().length;
+
+  console.log(lottoSum);
+  console.log(millions);
+  millions.toString().split("").map(function (item) {
+    console.log(item);
+  });
+  console.log(totalDigits);
   var digit1 = ('' + lottoSum)[0];
   var digit2 = ('' + lottoSum)[1];
+  // var digit1 = "8"
+  // var digit2 = "8"
   var num1 = document.getElementById('num_' + digit1).cloneNode(true);
   var num2 = document.getElementById('num_' + digit2).cloneNode(true);
+  var end_2b = document.getElementById('end_2b');
 
   num1.onload = function () {
+    var width = num1.width * .5;
+    if (totalDigits === 2) {
+      width = num1.width * .5 + num2.width * .62;
+      TweenLite.set(num2, { opacity: 1, x: num1.width * .62 });
+    }
+
+    console.log(num1.width);
+
     TweenLite.set(num1, { opacity: 1, x: 0 });
-    TweenLite.set(num2, { opacity: 1, x: num1.width * .55 });
+
+    TweenLite.set(end_2b, { x: width });
   };
 
-  console.log(digit1);
+  // console.log(digit1);
 
   document.getElementById("millions").append(num1);
-  document.getElementById("millions").append(num2);
+  if (totalDigits === 2) {
+    document.getElementById("millions").append(num2);
+  }
+};
+
+var populateAd = function populateAd(json, callback) {
+  var end_2b = document.getElementById('end_2b');
+  var urlParams = new URLSearchParams(window.location.search);
+  var myParam = urlParams.get('jackpot');
+
+  var lottoSum = myParam || json.SIX49.jackpot;
+
+  var millions = lottoSum / 1000000;
+  var totalDigits = millions.toString().length;
+
+  var numList = [];
+
+  var promList = millions.toString().split("").map(function (item) {
+    var num = document.getElementById('num_' + item).cloneNode(true);
+    numList.push(num);
+    var prom = new Promise(function (good, bad) {
+      num.onload = good;
+    });
+
+    document.getElementById("millions").append(num);
+    return prom;
+  });
+
+  var width = 0;
+  var x = 0;
+  Promise.all(promList).then(function () {
+    numList.map(function (item) {
+      width += item.width * .5 + 7;
+      console.log(item.width, x);
+      TweenLite.set(item, { opacity: 1, x: x });
+      x = width;
+    });
+
+    TweenLite.set(end_2b, { x: x + 13 });
+    callback();
+  });
+};
+
+creative.populateAd = function (json) {
+  populateAd(json);
 };
 
 creative.init = function () {
@@ -182,6 +251,7 @@ creative.pageLoadHandler = function (event) {
 window.addEventListener('load', creative.init.bind(creative));
 
 exports.creative = creative;
+exports.populateAd = populateAd;
 
 },{}],3:[function(require,module,exports){
 'use strict';
@@ -190,17 +260,37 @@ var _commonJsCommonJs = require('../../_common/js/common.js');
 
 var _commonJsCreativeJs = require('../../_common/js/creative.js');
 
-_commonJsCreativeJs.creative.loadJSON();
 _commonJsCreativeJs.creative.showAd = function () {
-    var tl = new TimelineMax();
 
-    tl.to(".frame1", .3, { opacity: 1 });
+	// LOAD JSON FEED
+	_commonJsCreativeJs.creative.xhr = new XMLHttpRequest();
+	//creative.xhr.open( 'GET', 'https://playnow-proxy.poundandgrain.ca/json-proxy.php?url=https://jsonblob.com/api/jsonBlob/fdb4d82f-1abd-11ea-8c57-cf3af79b5e81', true );
+	_commonJsCreativeJs.creative.xhr.open('GET', 'https://playnow-proxy.poundandgrain.ca/json-proxy.php?url=https://www.playnow.com/services2/lotto/jackpot', true);
+	_commonJsCreativeJs.creative.xhr.onload = function () {
+		var result = window.JSON.parse(_commonJsCreativeJs.creative.xhr.responseText);
+		_commonJsCreativeJs.creative.makeDigital(result.contents);
+		console.log('no errors!');
+	};
+	_commonJsCreativeJs.creative.xhr.onerror = function () {
+		//process error
+		console.log('error processing json feed');
+	};
+	_commonJsCreativeJs.creative.xhr.send();
+};
 
-    tl.to([".frame1"], .3, { opacity: 0 }, "+=3");
-    tl.set(".frame3", { opacity: 1 });
+_commonJsCreativeJs.creative.makeDigital = function (json) {
 
-    tl.from(".t2", .3, { opacity: 0 });
-    tl.from(".cta", .3, { opacity: 0 }, "+=.7");
+	(0, _commonJsCreativeJs.populateAd)(json, function () {
+		TweenLite.set(".numbers", { opacity: 1 });
+		var tl = new TimelineMax();
+		tl.to(".frame1", .3, { opacity: 1 });
+
+		tl.to([".frame1"], .3, { opacity: 0 }, "+=3");
+		tl.set(".frame3", { opacity: 1 });
+
+		tl.from(".t2", .3, { opacity: 0 });
+		tl.from(".cta", .3, { opacity: 0 }, "+=.7");
+	});
 };
 
 _commonJsCreativeJs.creative.dynamicDataAvailable = function () {};

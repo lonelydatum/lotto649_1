@@ -335,15 +335,26 @@ sup {
 }
 
 .brush {
-  -webkit-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
+  -webkit-transform: translate(-55px, 64px) scale(0.5, 0.5);
+  -ms-transform: translate(-55px, 64px) scale(0.5, 0.5);
+  transform: translate(-55px, 64px) scale(0.5, 0.5);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-perspective: 1000px;
   perspective: 1000px;
   position: absolute;
-  clip: rect(0px, 300px, 250px, 0px);
+  clip: rect(0px, 278px, 94px, 0px);
+}
+
+#end_2b {
+  -webkit-transform: translate(0px, -88px) scale(0.56818, 0.56818);
+  -ms-transform: translate(0px, -88px) scale(0.56818, 0.56818);
+  transform: translate(0px, -88px) scale(0.56818, 0.56818);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  position: absolute;
 }
 
 #banner {

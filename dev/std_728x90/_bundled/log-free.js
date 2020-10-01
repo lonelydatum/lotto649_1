@@ -19,7 +19,7 @@ function txt(list) {
 
 function happyTxt() {
 	var tl = txt([".t1a", ".t1b", ".t1c", ".t1d"]);
-	tl.from(".brush", .6, { clip: "rect(0px, 0px, " + size.w + "px, 0px)" }, "-=.2");
+	tl.from(".brush", .3, { clip: "rect(0px, 0px, " + size.h + "px, 0px)" }, "-=.25");
 	// tl.to(".word1", .3, {opacity:0}, "+=1")
 
 	return tl;
@@ -54,9 +54,10 @@ function richText() {
 function startF1() {
 	var tl = new TimelineMax();
 	tl.set(".frame1", { opacity: 1 });
-	tl.add(txt([".t1a", ".t1b", ".t1c", ".t1d"]));
-	tl.from(".brush", .6, { clip: "rect(0px, 0px, " + size.w + "px, 0px)" });
-	tl.add(blinker(), "+=1.2");
+	// tl.add( txt([".t1a", ".t1b", ".t1c", ".t1d"]) )
+	// tl.from(".brush", .5, {clip: `rect(0px, 0px, ${size.h}px, 0px)`})
+	tl.add(happyTxt());
+	tl.add(blinker(), "+=1.6");
 	return tl;
 }
 
@@ -112,22 +113,90 @@ creative.loadJSON = function () {
   creative.xhr.send();
 };
 
-creative.populateAd = function (json) {
-  var lottoSum = json.LMAX.jackpot;
-  var digit1 = ('' + lottoSum)[0];
-  var digit2 = ('' + lottoSum)[1];
-  var num1 = document.getElementById('num_' + digit1).cloneNode(true);
-  var num2 = document.getElementById('num_' + digit2).cloneNode(true);
+creative.___populateAd = function (json) {
 
-  num1.onload = function () {
-    TweenLite.set(num1, { opacity: 1, x: 0 });
-    TweenLite.set(num2, { opacity: 1, x: num1.width * .55 });
-  };
+  var lottoSum = json.SIX49.jackpot;
+  // var lottoSum = 81000000;
+
+  var millions = lottoSum / 1000000;
+  var totalDigits = millions.toString().length;
 
   void 0;
+  void 0;
+  millions.toString().split("").map(function (item) {
+    void 0;
+  });
+  void 0;
+  var digit1 = ('' + lottoSum)[0];
+  var digit2 = ('' + lottoSum)[1];
+  // var digit1 = "8"
+  // var digit2 = "8"
+  var num1 = document.getElementById('num_' + digit1).cloneNode(true);
+  var num2 = document.getElementById('num_' + digit2).cloneNode(true);
+  var end_2b = document.getElementById('end_2b');
+
+  num1.onload = function () {
+    var width = num1.width * .5;
+    if (totalDigits === 2) {
+      width = num1.width * .5 + num2.width * .62;
+      TweenLite.set(num2, { opacity: 1, x: num1.width * .62 });
+    }
+
+    void 0;
+
+    TweenLite.set(num1, { opacity: 1, x: 0 });
+
+    TweenLite.set(end_2b, { x: width });
+  };
+
+  // console.log(digit1);
 
   document.getElementById("millions").append(num1);
-  document.getElementById("millions").append(num2);
+  if (totalDigits === 2) {
+    document.getElementById("millions").append(num2);
+  }
+};
+
+var populateAd = function populateAd(json, callback) {
+  var end_2b = document.getElementById('end_2b');
+  var urlParams = new URLSearchParams(window.location.search);
+  var myParam = urlParams.get('jackpot');
+
+  var lottoSum = myParam || json.SIX49.jackpot;
+
+  var millions = lottoSum / 1000000;
+  var totalDigits = millions.toString().length;
+
+  var numList = [];
+
+  var promList = millions.toString().split("").map(function (item) {
+    var num = document.getElementById('num_' + item).cloneNode(true);
+    numList.push(num);
+    var prom = new Promise(function (good, bad) {
+      num.onload = good;
+    });
+
+    document.getElementById("millions").append(num);
+    return prom;
+  });
+
+  var width = 0;
+  var x = 0;
+  Promise.all(promList).then(function () {
+    numList.map(function (item) {
+      width += item.width * .5 + 7;
+      void 0;
+      TweenLite.set(item, { opacity: 1, x: x });
+      x = width;
+    });
+
+    TweenLite.set(end_2b, { x: x + 13 });
+    callback();
+  });
+};
+
+creative.populateAd = function (json) {
+  populateAd(json);
 };
 
 creative.init = function () {
@@ -182,6 +251,7 @@ creative.pageLoadHandler = function (event) {
 window.addEventListener('load', creative.init.bind(creative));
 
 exports.creative = creative;
+exports.populateAd = populateAd;
 
 },{}],3:[function(require,module,exports){
 'use strict';
@@ -193,9 +263,10 @@ var _commonJsCreativeJs = require('../../_common/js/creative.js');
 _commonJsCreativeJs.creative.showAd = function () {
 				var tl = new TimelineMax();
 				tl.set([".frame1", ".words"], { opacity: 1 });
+
 				tl.add(_commonJsCommonJs.helpers.happyTxt());
 
-				tl.add("blink", "+=1");
+				tl.add("blink", "+=1.8");
 				tl.add(_commonJsCommonJs.helpers.blinker(.4), "blink");
 				tl.to(".word1", .3, { opacity: 0 }, "blink");
 
@@ -205,8 +276,9 @@ _commonJsCreativeJs.creative.showAd = function () {
 
 				tl.add("shift");
 
-				tl.to(".logo", .3, { x: -140 }, "shift");
-				tl.from(".footer", .4, { x: "+=150" }, "shift+=.1");
+				tl.to(".bg2", .4, { x: -45 }, "shift");
+				tl.to(".logo", .4, { x: -140 }, "shift");
+				tl.from(".footer", .4, { x: "+=150" }, "shift");
 };
 
 _commonJsCreativeJs.creative.dynamicDataAvailable = function () {};

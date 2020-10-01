@@ -48,9 +48,15 @@
 }
 
 .brush{
-	@include pos(0, 0);
-	clip: rect(0px, 300px, 250px, 0px);
+	@include pos-scale(-55, 64, .5);
+	clip: rect(0px, 278px, 94px, 0px);
 }
+
+#end_2b{
+	// left: 35px;
+	@include pos-scale(0, -88, (1/.88)/2);
+}
+
 
 
 #banner{
